@@ -3,19 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Manual de Dicas — LGPD</title>
+<title>Manual de Dicas — LGPD | matter&amp;Co.</title>
 <style>
   :root{
-    --bg:#f6f7f9;
-    --card:#ffffff;
-    --ink:#1c2430;
-    --ink-soft:#5b6472;
-    --brand:#2f5f8a;
-    --brand-dark:#1f4666;
-    --accent:#3f8f6f;
-    --danger:#c0503f;
-    --border:#e2e5ea;
-    --radius:14px;
+    --bg:#141318;
+    --bg-soft:#1b1a21;
+    --card:#201f27;
+    --card-hover:#26252e;
+    --ink:#f3f2f6;
+    --ink-soft:#a7a3b3;
+    --purple:#7c4dc4;
+    --purple-dark:#4e2c7a;
+    --gold:#f2b705;
+    --gold-dark:#c69404;
+    --danger:#e0645a;
+    --border:#332f3d;
+    --radius:16px;
   }
   *{box-sizing:border-box;}
   body{
@@ -26,21 +29,59 @@
     line-height:1.55;
   }
   header{
-    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    position:relative;
+    background:
+      radial-gradient(circle at 15% -10%, rgba(124,77,196,.45), transparent 55%),
+      radial-gradient(circle at 90% 0%, rgba(242,183,5,.25), transparent 45%),
+      #141318;
     color:#fff;
-    padding:32px 20px 26px;
+    padding:36px 20px 28px;
     text-align:center;
+    overflow:hidden;
+    border-bottom:1px solid var(--border);
+  }
+  .logo-mark{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:14px;
+  }
+  .logo-mark svg{display:block;}
+  .wordmark{
+    font-size:1.9rem;
+    font-weight:800;
+    letter-spacing:-.5px;
+    margin:0 0 4px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  header .eyebrow{
+    margin:0 0 2px;
+    font-size:.72rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.14em;
+    color:var(--gold);
   }
   header h1{
-    margin:0 0 6px;
-    font-size:1.6rem;
+    margin:2px 0 8px;
+    font-size:1.3rem;
     font-weight:700;
-    letter-spacing:.2px;
+    color:var(--ink);
   }
-  header p{
-    margin:0;
-    opacity:.9;
-    font-size:.95rem;
+  header p.tagline{
+    margin:0 0 14px;
+    opacity:.75;
+    font-size:.88rem;
+  }
+  .divider{
+    width:120px;
+    height:3px;
+    margin:0 auto;
+    border-radius:3px;
+    background:linear-gradient(90deg,var(--purple),var(--gold));
   }
   .container{
     max-width:760px;
@@ -52,9 +93,9 @@
     gap:8px;
     margin:20px 0 22px;
     background:var(--card);
+    border:1px solid var(--border);
     border-radius:var(--radius);
     padding:6px;
-    box-shadow:0 1px 3px rgba(20,30,45,.08);
   }
   nav.tabs button{
     flex:1;
@@ -69,7 +110,7 @@
     transition:background .15s,color .15s;
   }
   nav.tabs button.active{
-    background:var(--brand);
+    background:linear-gradient(135deg,var(--purple),var(--purple-dark));
     color:#fff;
   }
   section.panel{display:none;}
@@ -81,23 +122,23 @@
     border-radius:var(--radius);
     padding:18px 20px;
     margin-bottom:14px;
-    box-shadow:0 1px 3px rgba(20,30,45,.05);
   }
   .card h3{
     margin:0 0 6px;
     font-size:1rem;
-    color:var(--brand-dark);
+    color:var(--ink);
     display:flex;
     align-items:center;
-    gap:8px;
+    gap:10px;
   }
   .card h3 .num{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    width:22px;height:22px;
-    background:var(--brand);
-    color:#fff;
+    width:24px;height:24px;
+    background:linear-gradient(135deg,var(--purple),var(--gold));
+    color:#141318;
+    font-weight:800;
     border-radius:50%;
     font-size:.72rem;
     flex-shrink:0;
@@ -108,8 +149,8 @@
     font-size:.78rem;
     font-weight:700;
     text-transform:uppercase;
-    letter-spacing:.06em;
-    color:var(--accent);
+    letter-spacing:.08em;
+    color:var(--gold);
     margin:26px 0 10px;
   }
   .cat-label:first-child{margin-top:4px;}
@@ -117,28 +158,29 @@
   /* Quiz */
   #quiz-intro .card{text-align:center;}
   #quiz-intro button.start{
-    background:var(--brand);
+    background:linear-gradient(135deg,var(--purple),var(--purple-dark));
     color:#fff;
     border:none;
     padding:12px 26px;
     border-radius:10px;
     font-size:.95rem;
-    font-weight:600;
+    font-weight:700;
     cursor:pointer;
     margin-top:8px;
   }
-  #quiz-intro button.start:hover{background:var(--brand-dark);}
+  #quiz-intro button.start:hover{filter:brightness(1.1);}
 
   .progress-wrap{
     height:8px;
-    background:var(--border);
+    background:var(--bg-soft);
+    border:1px solid var(--border);
     border-radius:6px;
     overflow:hidden;
     margin-bottom:16px;
   }
   .progress-bar{
     height:100%;
-    background:var(--accent);
+    background:linear-gradient(90deg,var(--purple),var(--gold));
     width:0%;
     transition:width .3s ease;
   }
@@ -153,12 +195,13 @@
     font-size:1.05rem;
     font-weight:600;
     margin:0 0 16px;
+    color:var(--ink);
   }
   .option{
     display:block;
     width:100%;
     text-align:left;
-    background:#fff;
+    background:var(--bg-soft);
     border:1.5px solid var(--border);
     border-radius:10px;
     padding:12px 14px;
@@ -168,24 +211,24 @@
     cursor:pointer;
     transition:border-color .15s,background .15s;
   }
-  .option:hover:not(:disabled){border-color:var(--brand);}
+  .option:hover:not(:disabled){border-color:var(--purple);background:var(--card-hover);}
   .option.correct{
-    border-color:var(--accent);
-    background:#eef7f1;
-    color:#215c42;
+    border-color:var(--gold);
+    background:rgba(242,183,5,.12);
+    color:var(--gold);
     font-weight:600;
   }
   .option.incorrect{
     border-color:var(--danger);
-    background:#fbeeec;
-    color:#7a3226;
+    background:rgba(224,100,90,.12);
+    color:var(--danger);
     font-weight:600;
   }
   .option:disabled{cursor:default;}
 
   .explanation{
-    background:#eef3f8;
-    border-left:3px solid var(--brand);
+    background:rgba(124,77,196,.14);
+    border-left:3px solid var(--purple);
     border-radius:8px;
     padding:12px 14px;
     font-size:.88rem;
@@ -196,36 +239,39 @@
   .next-btn{
     display:none;
     margin-top:16px;
-    background:var(--brand);
+    background:linear-gradient(135deg,var(--purple),var(--purple-dark));
     color:#fff;
     border:none;
     padding:10px 22px;
     border-radius:10px;
     font-size:.9rem;
-    font-weight:600;
+    font-weight:700;
     cursor:pointer;
   }
-  .next-btn:hover{background:var(--brand-dark);}
+  .next-btn:hover{filter:brightness(1.1);}
 
   #quiz-result{text-align:center;}
   #quiz-result .score{
     font-size:2.4rem;
     font-weight:800;
-    color:var(--brand);
+    background:linear-gradient(135deg,var(--purple),var(--gold));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
     margin:10px 0;
   }
   #quiz-result .msg{color:var(--ink-soft);font-size:.95rem;margin-bottom:18px;}
   .retry-btn{
-    background:var(--accent);
-    color:#fff;
+    background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+    color:#141318;
     border:none;
     padding:11px 24px;
     border-radius:10px;
     font-size:.9rem;
-    font-weight:600;
+    font-weight:700;
     cursor:pointer;
   }
-  .retry-btn:hover{opacity:.9;}
+  .retry-btn:hover{filter:brightness(1.05);}
 
   footer{
     text-align:center;
@@ -238,8 +284,18 @@
 <body>
 
 <header>
-  <h1>Manual de Dicas — LGPD</h1>
-  <p>Boas práticas de proteção de dados pessoais + teste seus conhecimentos</p>
+  <div class="logo-mark">
+    <svg width="52" height="34" viewBox="0 0 52 34" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="15" r="15" fill="#7c4dc4"/>
+      <circle cx="30" cy="20" r="12" fill="#f2b705"/>
+      <circle cx="46" cy="7" r="3" fill="#7c4dc4"/>
+    </svg>
+  </div>
+  <p class="wordmark">matter&amp;Co.</p>
+  <p class="eyebrow">Ecossistema de Inteligência de Negócios</p>
+  <div class="divider"></div>
+  <h1 style="margin-top:16px;">Manual de Dicas — LGPD</h1>
+  <p class="tagline">Boas práticas de proteção de dados pessoais + teste seus conhecimentos</p>
 </header>
 
 <div class="container">
@@ -359,7 +415,7 @@
 
 </div>
 
-<footer>Manual informativo — não substitui orientação jurídica. Consulte um advogado para casos específicos.</footer>
+<footer>matter&amp;Co. — Manual informativo, não substitui orientação jurídica. Consulte um advogado para casos específicos.</footer>
 
 <script>
 // ---- Tabs ----
