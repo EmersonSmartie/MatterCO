@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual de Dicas — LGPD</title>
+<style>
+  :root{
+    --bg:#f6f7f9;
+    --card:#ffffff;
+    --ink:#1c2430;
+    --ink-soft:#5b6472;
+    --brand:#2f5f8a;
+    --brand-dark:#1f4666;
+    --accent:#3f8f6f;
+    --danger:#c0503f;
+    --border:#e2e5ea;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.55;
+  }
+  header{
+    background:linear-gradient(135deg,var(--brand),var(--brand-dark));
+    color:#fff;
+    padding:32px 20px 26px;
+    text-align:center;
+  }
+  header h1{
+    margin:0 0 6px;
+    font-size:1.6rem;
+    font-weight:700;
+    letter-spacing:.2px;
+  }
+  header p{
+    margin:0;
+    opacity:.9;
+    font-size:.95rem;
+  }
+  .container{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 18px 60px;
+  }
+  nav.tabs{
+    display:flex;
+    gap:8px;
+    margin:20px 0 22px;
+    background:var(--card);
+    border-radius:var(--radius);
+    padding:6px;
+    box-shadow:0 1px 3px rgba(20,30,45,.08);
+  }
+  nav.tabs button{
+    flex:1;
+    border:none;
+    background:transparent;
+    padding:10px 8px;
+    font-size:.92rem;
+    font-weight:600;
+    color:var(--ink-soft);
+    border-radius:10px;
+    cursor:pointer;
+    transition:background .15s,color .15s;
+  }
+  nav.tabs button.active{
+    background:var(--brand);
+    color:#fff;
+  }
+  section.panel{display:none;}
+  section.panel.active{display:block;}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:18px 20px;
+    margin-bottom:14px;
+    box-shadow:0 1px 3px rgba(20,30,45,.05);
+  }
+  .card h3{
+    margin:0 0 6px;
+    font-size:1rem;
+    color:var(--brand-dark);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .card h3 .num{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:22px;height:22px;
+    background:var(--brand);
+    color:#fff;
+    border-radius:50%;
+    font-size:.72rem;
+    flex-shrink:0;
+  }
+  .card p{margin:0;color:var(--ink-soft);font-size:.93rem;}
+
+  .cat-label{
+    font-size:.78rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--accent);
+    margin:26px 0 10px;
+  }
+  .cat-label:first-child{margin-top:4px;}
+
+  /* Quiz */
+  #quiz-intro .card{text-align:center;}
+  #quiz-intro button.start{
+    background:var(--brand);
+    color:#fff;
+    border:none;
+    padding:12px 26px;
+    border-radius:10px;
+    font-size:.95rem;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:8px;
+  }
+  #quiz-intro button.start:hover{background:var(--brand-dark);}
+
+  .progress-wrap{
+    height:8px;
+    background:var(--border);
+    border-radius:6px;
+    overflow:hidden;
+    margin-bottom:16px;
+  }
+  .progress-bar{
+    height:100%;
+    background:var(--accent);
+    width:0%;
+    transition:width .3s ease;
+  }
+  .q-meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:.82rem;
+    color:var(--ink-soft);
+    margin-bottom:10px;
+  }
+  .q-text{
+    font-size:1.05rem;
+    font-weight:600;
+    margin:0 0 16px;
+  }
+  .option{
+    display:block;
+    width:100%;
+    text-align:left;
+    background:#fff;
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    padding:12px 14px;
+    margin-bottom:10px;
+    font-size:.93rem;
+    color:var(--ink);
+    cursor:pointer;
+    transition:border-color .15s,background .15s;
+  }
+  .option:hover:not(:disabled){border-color:var(--brand);}
+  .option.correct{
+    border-color:var(--accent);
+    background:#eef7f1;
+    color:#215c42;
+    font-weight:600;
+  }
+  .option.incorrect{
+    border-color:var(--danger);
+    background:#fbeeec;
+    color:#7a3226;
+    font-weight:600;
+  }
+  .option:disabled{cursor:default;}
+
+  .explanation{
+    background:#eef3f8;
+    border-left:3px solid var(--brand);
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:.88rem;
+    color:var(--ink-soft);
+    margin-top:4px;
+    display:none;
+  }
+  .next-btn{
+    display:none;
+    margin-top:16px;
+    background:var(--brand);
+    color:#fff;
+    border:none;
+    padding:10px 22px;
+    border-radius:10px;
+    font-size:.9rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .next-btn:hover{background:var(--brand-dark);}
+
+  #quiz-result{text-align:center;}
+  #quiz-result .score{
+    font-size:2.4rem;
+    font-weight:800;
+    color:var(--brand);
+    margin:10px 0;
+  }
+  #quiz-result .msg{color:var(--ink-soft);font-size:.95rem;margin-bottom:18px;}
+  .retry-btn{
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:11px 24px;
+    border-radius:10px;
+    font-size:.9rem;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .retry-btn:hover{opacity:.9;}
+
+  footer{
+    text-align:center;
+    font-size:.78rem;
+    color:var(--ink-soft);
+    padding:10px 20px 30px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Manual de Dicas — LGPD</h1>
+  <p>Boas práticas de proteção de dados pessoais + teste seus conhecimentos</p>
+</header>
+
+<div class="container">
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="manual">📘 Manual</button>
+    <button class="tab-btn" data-tab="quiz">✅ Teste seus conhecimentos</button>
+  </nav>
+
+  <!-- MANUAL -->
+  <section class="panel active" id="manual">
+
+    <div class="cat-label">Antes de coletar dados</div>
+
+    <div class="card">
+      <h3><span class="num">1</span>Colete só o necessário</h3>
+      <p>Peça apenas os dados essenciais para a finalidade do serviço. Quanto mais dados você guarda, maior o risco em caso de incidente.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">2</span>Tenha sempre uma base legal</h3>
+      <p>Toda coleta ou uso de dado pessoal precisa se apoiar em uma das 10 hipóteses da LGPD (consentimento, execução de contrato, interesse legítimo, obrigação legal, etc.). Sem base legal, não trate o dado.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">3</span>Consentimento claro, nunca pré-marcado</h3>
+      <p>Se a base legal for o consentimento, ele precisa ser livre, informado, específico e dado por meio de uma ação afirmativa — nunca por caixinhas já marcadas.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">4</span>Redobre o cuidado com dados sensíveis</h3>
+      <p>Saúde, biometria, origem étnica, orientação sexual, convicção religiosa e opinião política exigem proteção reforçada e, em geral, consentimento específico e destacado.</p>
+    </div>
+
+    <div class="cat-label">Enquanto os dados estão com você</div>
+
+    <div class="card">
+      <h3><span class="num">5</span>Diga para que serve o dado</h3>
+      <p>Informe claramente a finalidade do tratamento no momento da coleta. Não use o dado para algo diferente do que foi informado ao titular.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">6</span>Defina prazos de retenção</h3>
+      <p>Não guarde dados "para sempre, só por precaução". Estabeleça por quanto tempo cada tipo de dado será mantido e elimine-o quando não for mais necessário.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">7</span>Proteja com segurança técnica</h3>
+      <p>Use criptografia, controle de acesso, backups e monitoramento. Segurança da informação é obrigação legal, não opcional.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">8</span>Cuidado ao compartilhar com terceiros</h3>
+      <p>Antes de enviar dados a fornecedores (operadores), tenha contrato com cláusulas de proteção de dados e confirme que eles também seguem a LGPD.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">9</span>Cookies não essenciais pedem consentimento</h3>
+      <p>Cookies de marketing, analytics e rastreamento exigem consentimento específico do usuário, com opção real de recusar.</p>
+    </div>
+
+    <div class="cat-label">Respeitando o titular</div>
+
+    <div class="card">
+      <h3><span class="num">10</span>Facilite os direitos do titular</h3>
+      <p>Tenha um canal simples para o titular acessar, corrigir, portar ou solicitar a exclusão dos seus dados. Responda dentro de prazo razoável.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">11</span>Tenha um plano para incidentes</h3>
+      <p>Se houver uma violação de dados, seja rápido: avalie o risco, comunique a ANPD e os titulares afetados quando necessário, e documente tudo.</p>
+    </div>
+
+    <div class="cat-label">Cultura e organização</div>
+
+    <div class="card">
+      <h3><span class="num">12</span>Nomeie um encarregado (DPO)</h3>
+      <p>O encarregado é o canal entre a empresa, os titulares e a ANPD. Em muitas empresas essa figura é obrigatória ou altamente recomendada.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">13</span>Treine a equipe regularmente</h3>
+      <p>A maior parte dos incidentes de dados vem de erro humano. Treinamentos periódicos reduzem drasticamente esse risco.</p>
+    </div>
+    <div class="card">
+      <h3><span class="num">14</span>Documente o que você faz</h3>
+      <p>Mantenha um registro das operações de tratamento de dados (o que coleta, por quê, onde guarda, com quem compartilha). Isso facilita auditorias e resposta a incidentes.</p>
+    </div>
+
+  </section>
+
+  <!-- QUIZ -->
+  <section class="panel" id="quiz">
+
+    <div id="quiz-intro">
+      <div class="card">
+        <h3 style="justify-content:center;">Teste seu entendimento sobre a LGPD</h3>
+        <p>15 perguntas de múltipla escolha, com explicação após cada resposta. Vamos ver o quanto você já sabe?</p>
+        <button class="start" id="start-quiz-btn">Começar teste</button>
+      </div>
+    </div>
+
+    <div id="quiz-play" style="display:none;">
+      <div class="progress-wrap"><div class="progress-bar" id="progress-bar"></div></div>
+      <div class="q-meta">
+        <span id="q-counter">Pergunta 1 de 15</span>
+        <span id="q-score">Acertos: 0</span>
+      </div>
+      <div class="card">
+        <p class="q-text" id="q-text"></p>
+        <div id="options"></div>
+        <div class="explanation" id="explanation"></div>
+        <button class="next-btn" id="next-btn">Próxima pergunta →</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" style="display:none;">
+      <div class="card">
+        <div class="msg">Você concluiu o teste!</div>
+        <div class="score" id="final-score">0/15</div>
+        <div class="msg" id="final-msg"></div>
+        <button class="retry-btn" id="retry-btn">Refazer teste</button>
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<footer>Manual informativo — não substitui orientação jurídica. Consulte um advogado para casos específicos.</footer>
+
+<script>
+// ---- Tabs ----
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ---- Quiz data ----
+const QUESTIONS = [
+  {
+    q:"O que é considerado \"dado pessoal\" pela LGPD?",
+    options:[
+      "Apenas CPF e RG",
+      "Qualquer informação relacionada a pessoa natural identificada ou identificável",
+      "Somente dados financeiros",
+      "Apenas dados armazenados em bancos de dados digitais"
+    ],
+    correct:1,
+    exp:"A LGPD define dado pessoal de forma ampla: qualquer informação que permita identificar, direta ou indiretamente, uma pessoa natural."
+  },
+  {
+    q:"Qual das opções é um exemplo de \"dado pessoal sensível\"?",
+    options:["Nome completo","Endereço de e-mail","Dado sobre orientação sexual","Número de telefone"],
+    correct:2,
+    exp:"Dados sensíveis incluem origem racial/étnica, convicção religiosa, opinião política, saúde, biometria e orientação sexual — exigem proteção reforçada."
+  },
+  {
+    q:"Quantas bases legais para tratamento de dados a LGPD prevê?",
+    options:["5","8","10","12"],
+    correct:2,
+    exp:"A LGPD prevê 10 hipóteses legais, entre elas consentimento, execução de contrato, cumprimento de obrigação legal e interesse legítimo."
+  },
+  {
+    q:"O consentimento do titular, segundo a LGPD, deve ser:",
+    options:[
+      "Genérico e válido para qualquer finalidade futura",
+      "Livre, informado e inequívoco, para finalidade específica",
+      "Presumido, salvo manifestação contrária",
+      "Válido apenas se por escrito em papel"
+    ],
+    correct:1,
+    exp:"O consentimento precisa ser específico para cada finalidade, dado de forma livre e informada — consentimentos genéricos não são válidos."
+  },
+  {
+    q:"O que é o \"controlador\" de dados?",
+    options:[
+      "A pessoa a quem os dados pertencem",
+      "Quem toma as decisões sobre o tratamento dos dados",
+      "A autoridade que fiscaliza a lei",
+      "O sistema onde os dados são armazenados"
+    ],
+    correct:1,
+    exp:"O controlador é quem decide para que finalidade e como os dados pessoais serão tratados."
+  },
+  {
+    q:"E o \"operador\"?",
+    options:[
+      "Quem decide a finalidade do tratamento",
+      "O titular dos dados",
+      "Quem realiza o tratamento em nome do controlador",
+      "A ANPD"
+    ],
+    correct:2,
+    exp:"O operador executa o tratamento de dados por conta do controlador — por exemplo, um fornecedor de tecnologia contratado."
+  },
+  {
+    q:"Qual é a sigla do órgão responsável por fiscalizar a LGPD no Brasil?",
+    options:["CADE","ANPD","INPI","CVM"],
+    correct:1,
+    exp:"A ANPD (Autoridade Nacional de Proteção de Dados) fiscaliza o cumprimento da LGPD e pode aplicar sanções."
+  },
+  {
+    q:"Um dos direitos do titular é:",
+    options:[
+      "Impedir qualquer empresa de existir",
+      "Solicitar a portabilidade de seus dados a outro fornecedor",
+      "Vender seus próprios dados a terceiros através da empresa",
+      "Exigir que a empresa nunca colete dados"
+    ],
+    correct:1,
+    exp:"Entre os direitos do titular está a portabilidade: levar seus dados de um fornecedor para outro."
+  },
+  {
+    q:"Em caso de incidente de segurança com dados pessoais, a empresa deve:",
+    options:[
+      "Resolver internamente sem informar ninguém",
+      "Comunicar a ANPD e os titulares afetados em prazo razoável",
+      "Excluir todos os dados do sistema imediatamente",
+      "Aguardar reclamação de algum titular"
+    ],
+    correct:1,
+    exp:"A LGPD exige comunicação do incidente à ANPD e aos titulares afetados, em prazo razoável, quando houver risco relevante."
+  },
+  {
+    q:"Qual o valor máximo de multa que a ANPD pode aplicar por infração?",
+    options:["R$ 5 milhões","R$ 20 milhões","R$ 50 milhões","Não há limite"],
+    correct:2,
+    exp:"A multa pode chegar a 2% do faturamento da empresa no Brasil, limitada a R$ 50 milhões por infração."
+  },
+  {
+    q:"O princípio da \"minimização\" na LGPD significa:",
+    options:[
+      "Coletar o máximo de dados possível para futuras análises",
+      "Coletar apenas os dados necessários para a finalidade informada",
+      "Reduzir o número de funcionários que acessam dados",
+      "Diminuir o tamanho dos arquivos armazenados"
+    ],
+    correct:1,
+    exp:"Minimização significa coletar somente o que é necessário para cumprir a finalidade declarada — nada além disso."
+  },
+  {
+    q:"O que é \"anonimização\" de dados?",
+    options:[
+      "Apagar apenas o nome da pessoa",
+      "Processo que impede a associação do dado a um indivíduo, direta ou indiretamente",
+      "Criptografar os dados com senha",
+      "Armazenar os dados em outro país"
+    ],
+    correct:1,
+    exp:"Dado anonimizado não pode mais ser associado a uma pessoa identificável, nem com esforços razoáveis — deixa de ser dado pessoal."
+  },
+  {
+    q:"Cookies não essenciais em um site (como os de marketing) geralmente exigem:",
+    options:[
+      "Nenhuma ação, pois cookies não são dados pessoais",
+      "Consentimento prévio e específico do usuário",
+      "Apenas um aviso genérico no rodapé, sem opção de recusa",
+      "Autorização da ANPD antes de cada uso"
+    ],
+    correct:1,
+    exp:"Cookies de rastreamento/marketing coletam dados pessoais e exigem consentimento específico, com opção real de recusa."
+  },
+  {
+    q:"O encarregado de dados (DPO) tem a função de:",
+    options:[
+      "Vender os dados coletados",
+      "Ser o canal de comunicação entre controlador, titulares e ANPD",
+      "Substituir o departamento de TI",
+      "Aprovar todas as vendas da empresa"
+    ],
+    correct:1,
+    exp:"O encarregado (DPO) atua como ponte entre a empresa, os titulares dos dados e a autoridade fiscalizadora (ANPD)."
+  },
+  {
+    q:"Um bom exemplo de boa prática no tratamento de dados é:",
+    options:[
+      "Manter dados de clientes indefinidamente, \"só por precaução\"",
+      "Definir prazos de retenção e excluir dados quando não forem mais necessários",
+      "Compartilhar dados livremente com qualquer parceiro comercial",
+      "Coletar o máximo de dados possível em qualquer formulário"
+    ],
+    correct:1,
+    exp:"Definir e cumprir prazos de retenção reduz riscos e é uma exigência prática de conformidade com a LGPD."
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+const introEl = document.getElementById('quiz-intro');
+const playEl = document.getElementById('quiz-play');
+const resultEl = document.getElementById('quiz-result');
+const qText = document.getElementById('q-text');
+const optionsEl = document.getElementById('options');
+const explanationEl = document.getElementById('explanation');
+const nextBtn = document.getElementById('next-btn');
+const progressBar = document.getElementById('progress-bar');
+const qCounter = document.getElementById('q-counter');
+const qScore = document.getElementById('q-score');
+
+document.getElementById('start-quiz-btn').addEventListener('click', ()=>{
+  current = 0; score = 0;
+  introEl.style.display='none';
+  resultEl.style.display='none';
+  playEl.style.display='block';
+  renderQuestion();
+});
+
+document.getElementById('retry-btn').addEventListener('click', ()=>{
+  current = 0; score = 0;
+  resultEl.style.display='none';
+  playEl.style.display='block';
+  renderQuestion();
+});
+
+nextBtn.addEventListener('click', ()=>{
+  current++;
+  if(current >= QUESTIONS.length){
+    showResult();
+  } else {
+    renderQuestion();
+  }
+});
+
+function renderQuestion(){
+  answered = false;
+  const item = QUESTIONS[current];
+  qText.textContent = item.q;
+  qCounter.textContent = `Pergunta ${current+1} de ${QUESTIONS.length}`;
+  qScore.textContent = `Acertos: ${score}`;
+  progressBar.style.width = `${(current/QUESTIONS.length)*100}%`;
+  explanationEl.style.display='none';
+  explanationEl.textContent='';
+  nextBtn.style.display='none';
+  optionsEl.innerHTML='';
+
+  item.options.forEach((opt, idx)=>{
+    const b = document.createElement('button');
+    b.className='option';
+    b.textContent = opt;
+    b.addEventListener('click', ()=> selectAnswer(idx));
+    optionsEl.appendChild(b);
+  });
+}
+
+function selectAnswer(idx){
+  if(answered) return;
+  answered = true;
+  const item = QUESTIONS[current];
+  const buttons = optionsEl.querySelectorAll('.option');
+  buttons.forEach(b=>b.disabled=true);
+
+  if(idx === item.correct){
+    score++;
+    buttons[idx].classList.add('correct');
+  } else {
+    buttons[idx].classList.add('incorrect');
+    buttons[item.correct].classList.add('correct');
+  }
+  qScore.textContent = `Acertos: ${score}`;
+  explanationEl.textContent = item.exp;
+  explanationEl.style.display='block';
+  nextBtn.style.display='inline-block';
+  nextBtn.textContent = (current+1 >= QUESTIONS.length) ? 'Ver resultado →' : 'Próxima pergunta →';
+  progressBar.style.width = `${((current+1)/QUESTIONS.length)*100}%`;
+}
+
+function showResult(){
+  playEl.style.display='none';
+  resultEl.style.display='block';
+  document.getElementById('final-score').textContent = `${score}/${QUESTIONS.length}`;
+  let msg = '';
+  const pct = score / QUESTIONS.length;
+  if(pct === 1) msg = 'Perfeito! Você domina os conceitos essenciais da LGPD.';
+  else if(pct >= 0.8) msg = 'Muito bom! Você tem um entendimento sólido da LGPD.';
+  else if(pct >= 0.5) msg = 'Bom começo — revise o manual para fechar as lacunas.';
+  else msg = 'Vale a pena revisar o manual com calma antes de refazer o teste.';
+  document.getElementById('final-msg').textContent = msg;
+}
+</script>
+
+</body>
+</html>
